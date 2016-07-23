@@ -36,7 +36,7 @@ function GetCoords(self) {
 }
 
 function getNeighbors(lat, lng) {
-    var origin = s2.CellId.from_lat_lng(s2.LatLng.from_degrees(lat, lng)).parent(15);
+    var origin = s2.S2CellId.from_lat_lng(s2.S2LatLng.from_degrees(lat, lng)).parent(15);
     var walk = [origin.id()];
     // 10 before and 10 after
     var next = origin.next();
