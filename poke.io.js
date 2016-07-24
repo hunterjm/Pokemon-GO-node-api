@@ -245,7 +245,7 @@ function Pokeio() {
         var accessToken = _self$playerInfo2.accessToken;
 
 
-        var nullbytes = new Array(21);
+        var nullbytes = new Array(19);
         nullbytes.fill(0);
 
         // Generating walk data using s2 geometry
