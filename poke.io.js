@@ -50,7 +50,7 @@ function getNeighbors(lat, lng) {
     // 10 before and 10 after
     var next = origin.next();
     var prev = origin.prev();
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 9; i++) {
         // in range(10):
         walk.push(prev.id().toString());
         walk.push(next.id().toString());
