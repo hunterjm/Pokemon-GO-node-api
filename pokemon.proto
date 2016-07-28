@@ -53,11 +53,11 @@ message RequestEnvelop {
     required double spin_modifier = 6;
     required double normalized_hit_position = 7;
    }
-   
+
   message EvolvePokemonMessage {
     required fixed64 PokemonId = 1;
   }
-  
+
   message TransferPokemonMessage {
     required fixed64 PokemonId = 1;
   }
@@ -89,10 +89,14 @@ message RequestEnvelop {
       required int32 item_id = 1;
       required int32 count = 2;
   }
-  
+
   message ReleasePokemonMessage {
     optional fixed64 pokemon_id = 1;
     repeated fixed64 pokemon_ids = 2;
+  }
+
+  message ActionLogMessage {
+  	// No message needed.
   }
 }
 
@@ -350,7 +354,7 @@ message ResponseEnvelop {
       optional int32 from_fort = 31;
 
   }
-  
+
   enum TeamColor {
     NEUTRAL = 0;
     BLUE = 1;
@@ -1018,7 +1022,7 @@ message ResponseEnvelop {
   	optional int32 experience_awarded = 5;
   	optional int64 cooldown_complete_timestamp_ms = 6;
   	optional int32 chain_hack_sequence_number = 7;
-  
+
   	enum Result {
   		NO_RESULT_SET = 0;
   		SUCCESS = 1;
@@ -1066,7 +1070,7 @@ message ResponseEnvelop {
 	optional ItemId item_id = 1;
 	optional int32 item_count = 2;
   }
-  
+
   message ReleasePokemonResponse {
     required ReleaseStatus Status = 1;
     optional int32 CandyAwarded = 2;
@@ -1078,8 +1082,8 @@ message ResponseEnvelop {
       ERROR_POKEMON_IS_EGG = 4;
     }
   }
- 
-  message EvolvePokemonResponse 
+
+  message EvolvePokemonResponse
   {
     optional EvolvePokemonStatus Result = 1;
     optional Pokemon EvolvedPokemon = 2;
@@ -1094,10 +1098,55 @@ message ResponseEnvelop {
   		FAILED_POKEMON_CANNOT_EVOLVE = 4;
   		FAILED_POKEMON_IS_DEPLOYED = 5;
   	}
-  } 
-  
+  }
+
   message TransferPokemonResponse {
     optional int32 Status = 1;
     optional int32 CandyAwarded = 2;
+  }
+
+  message ActionLogResponse {
+  	Result result = 1;
+  	repeated ActionLogEntry log_entries = 2;
+
+  	enum Result {
+  		UNSET = 0;
+  		SUCCESS = 1;
+  	}
+  }
+
+  message ActionLogEntry {
+  	int64 timestamp_ms = 1;
+  	bool sfida = 2;
+
+  	oneof Action {
+  		CatchPokemonLogEntry catch_pokemon = 3;
+  		FortSearchLogEntry fort_search = 4;
+  	}
+  }
+
+  message CatchPokemonLogEntry {
+  	Result result = 1;
+  	PokemonId pokemon_id = 2;
+  	int32 combat_points = 3;
+  	uint64 pokemon_data_id = 4;
+
+  	enum Result {
+  		UNSET = 0;
+  		POKEMON_CAPTURED = 1;
+  		POKEMON_FLED = 2;
+  	}
+  }
+
+  message FortSearchLogEntry {
+  	Result result = 1;
+  	string fort_id = 2;
+  	InventoryItemData items = 3;
+  	int32 eggs = 4;
+
+  	enum Result {
+  		UNSET = 0;
+  		SUCCESS = 1;
+  	}
   }
 }
