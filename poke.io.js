@@ -159,17 +159,17 @@ function Pokeio() {
     // set provider
     self.playerInfo.provider = provider;
     // Updating location
-    self.SetLocation(location, function (err, loc) {
+    self.SetLocation(location, function (err) {
       if (err) {
         return callback(err);
       }
       // Getting access token
-      self.GetAccessToken(username, password, function (err, token) {
+      self.GetAccessToken(username, password, function (err) {
         if (err) {
           return callback(err);
         }
         // Getting api endpoint
-        self.GetApiEndpoint(function (err, api_endpoint) {
+        self.GetApiEndpoint(function (err) {
           if (err) {
             return callback(err);
           }
@@ -468,8 +468,6 @@ function Pokeio() {
     var _self$playerInfo4 = self.playerInfo;
     var apiEndpoint = _self$playerInfo4.apiEndpoint;
     var accessToken = _self$playerInfo4.accessToken;
-    var latitude = _self$playerInfo4.latitude;
-    var longitude = _self$playerInfo4.longitude;
 
     var dropItemMessage = new RequestEnvelop.RecycleInventoryItemMessage({
       'item_id': itemId,
@@ -511,6 +509,30 @@ function Pokeio() {
       try {
         var releasePokemonResponse = ResponseEnvelop.ReleasePokemonResponse.decode(f_ret.payload[0]);
         callback(null, releasePokemonResponse);
+      } catch (err) {
+        callback(err, null);
+      }
+    });
+
+  };
+
+  self.GetJournal = function (callback) {
+    var journal = new RequestEnvelop.ActionLogMessage();
+    var req = new RequestEnvelop.Requests(801, journal.encode().toBuffer());
+
+    var _self$playerInfo6 = self.playerInfo;
+    var apiEndpoint = _self$playerInfo6.apiEndpoint;
+    var accessToken = _self$playerInfo6.accessToken;
+
+    api_req(apiEndpoint, accessToken, req, function (err, f_ret) {
+      if (err) {
+        return callback(err);
+      } else if (!f_ret || !f_ret.payload || !f_ret.payload[0]) {
+        return callback('No result');
+      }
+      try {
+        var journalResponse = ResponseEnvelop.ActionLogResponse.decode(f_ret.payload[0]);
+        callback(null, journalResponse);
       } catch (err) {
         callback(err, null);
       }
