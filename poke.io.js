@@ -45,19 +45,19 @@ function GetCoords(self) {
 }
 
 function getNeighbors(lat, lng) {
-    var origin = new s2.S2CellId().from_lat_lng(new s2.S2LatLng().from_degrees(lat, lng)).parent(15);
-    var walk = [origin.id().toString()];
-    // 10 before and 10 after
-    var next = origin.next();
-    var prev = origin.prev();
-    for (var i = 0; i < 10; i++) {
-        // in range(10):
-        walk.push(prev.id().toString());
-        walk.push(next.id().toString());
-        next = next.next();
-        prev = prev.prev();
-    }
-    return walk;
+  var origin = new s2.S2CellId().from_lat_lng(new s2.S2LatLng().from_degrees(lat, lng)).parent(15);
+  var walk = [origin.id().toString()];
+  // 10 before and 10 after
+  var next = origin.next();
+  var prev = origin.prev();
+  for (var i = 0; i < 10; i++) {
+    // in range(10):
+    walk.push(prev.id().toString());
+    walk.push(next.id().toString());
+    next = next.next();
+    prev = prev.prev();
+  }
+  return walk;
 }
 
 function Pokeio() {
@@ -290,7 +290,7 @@ function Pokeio() {
       }
 
       callback(null, data.results[0].formatted_address);
-        }]));
+    }]));
   };
 
   // Still WIP
@@ -574,7 +574,7 @@ function Pokeio() {
         }
 
         callback(null, self.GetLocationCoords());
-            }]));
+      }]));
     }
   };
 }
