@@ -517,8 +517,7 @@ function Pokeio() {
   };
 
   self.GetJournal = function (callback) {
-    var journal = new RequestEnvelop.ActionLogMessage();
-    var req = new RequestEnvelop.Requests(801, journal.encode().toBuffer());
+    var req = new RequestEnvelop.Requests(801);
 
     var _self$playerInfo6 = self.playerInfo;
     var apiEndpoint = _self$playerInfo6.apiEndpoint;
