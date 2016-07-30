@@ -1106,7 +1106,7 @@ message ResponseEnvelop {
   }
 
   message ActionLogResponse {
-  	Result result = 1;
+  	required Result result = 1;
   	repeated ActionLogEntry log_entries = 2;
 
   	enum Result {
@@ -1116,8 +1116,8 @@ message ResponseEnvelop {
   }
 
   message ActionLogEntry {
-  	int64 timestamp_ms = 1;
-  	bool sfida = 2;
+  	required int64 timestamp_ms = 1;
+  	optional bool sfida = 2;
 
   	oneof Action {
   		CatchPokemonLogEntry catch_pokemon = 3;
@@ -1126,10 +1126,10 @@ message ResponseEnvelop {
   }
 
   message CatchPokemonLogEntry {
-  	Result result = 1;
-  	PokemonId pokemon_id = 2;
-  	int32 combat_points = 3;
-  	uint64 pokemon_data_id = 4;
+  	required Result result = 1;
+  	required PokemonId pokemon_id = 2;
+  	required int32 combat_points = 3;
+  	//required uint64 pokemon_data_id = 4;
 
   	enum Result {
   		UNSET = 0;
@@ -1139,10 +1139,10 @@ message ResponseEnvelop {
   }
 
   message FortSearchLogEntry {
-  	Result result = 1;
-  	string fort_id = 2;
-  	InventoryItemData items = 3;
-  	int32 eggs = 4;
+  	required Result result = 1;
+  	optional string fort_id = 2;
+  	repeated ItemAward items = 3;
+  	optional int32 eggs = 4;
 
   	enum Result {
   		UNSET = 0;
