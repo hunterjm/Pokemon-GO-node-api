@@ -31,7 +31,7 @@ var pokemonProto = builder.build();
 var RequestEnvelop = pokemonProto.RequestEnvelop;
 var ResponseEnvelop = pokemonProto.ResponseEnvelop;
 var pokemonlist = JSON.parse(fs.readFileSync(__dirname + '/pokemons.json', 'utf8'));
-
+var itemlist = JSON.parse(fs.readFileSync(__dirname + '/items.json', 'utf8'));
 var EventEmitter = events.EventEmitter;
 
 var api_url = 'https://pgorelease.nianticlabs.com/plfe/rpc';
@@ -71,6 +71,7 @@ function Pokeio() {
   self.google = new GoogleOAuth();
 
   self.pokemonlist = pokemonlist.pokemon;
+  self.itemlist = itemlist.items;
 
   self.playerInfo = {
     accessToken: '',
