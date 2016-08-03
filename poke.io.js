@@ -46,17 +46,30 @@ function GetCoords(self) {
 
 function getNeighbors(lat, lng) {
   var origin = new s2.S2CellId().from_lat_lng(new s2.S2LatLng().from_degrees(lat, lng)).parent(15);
-  var walk = [origin.id().toString()];
-  // 10 before and 10 after
-  var next = origin.next();
-  var prev = origin.prev();
-  for (var i = 0; i < 10; i++) {
-    // in range(10):
-    walk.push(prev.id().toString());
-    walk.push(next.id().toString());
-    next = next.next();
-    prev = prev.prev();
+  return getEdgeNeighbors(origin);
+}
+
+function getEdgeNeighbors(cell, walk, recurse, direction) {
+  if (!recurse) recurse = 0;
+  if (!walk) walk = [];
+  walk.push(cell.id().toString());
+  if(recurse < 3) {
+    recurse++;
+    // Edges 0, 1, 2, 3 are in the down, right, up, left directions in the face space.
+    const neighbors = cell.edgeNeighbors();
+    var i = 0;
+    for (const neighbor of neighbors) {
+      if(recurse !== 3 || i !== direction) {
+        getEdgeNeighbors(neighbor, walk, recurse, i);
+      }
+      i++;
+    }
   }
+  // unique
+  walk = walk.reduce(function(p, c) {
+    if(p.indexOf(c) === -1) p.push(c);
+    return p;
+  }, []);
   return walk;
 }
 
